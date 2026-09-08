@@ -1,0 +1,12 @@
+# AI Project Manager — Caddyfile Configuration
+
+panel.yourdomain.com {
+    # Automatic HTTPS with Let's Encrypt
+    encode gzip zstd
+
+    # Reverse proxy with automatic WebSocket support
+    reverse_proxy 127.0.0.1:8080 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+    }
+}
