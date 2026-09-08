@@ -104,7 +104,7 @@ Access the application directly on `http://localhost:8080`.
 
 ### 1-Click Installer
 ```bash
-curl -fsSL https://raw.githubusercontent.com/your-repo/ai-project-manager/main/scripts/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/kodepreneur/AI-Project-Manager/main/scripts/install.sh | sudo bash
 ```
 
 ### Systemd Service Management
