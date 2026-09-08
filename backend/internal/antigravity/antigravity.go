@@ -81,19 +81,39 @@ func (s *AntigravityService) ResolveBinary(customBinary string) (string, error) 
 	// 4. Standard binary names to look up in PATH
 	candidates = append(candidates, "agy", "antigravity", "antigravity-ide")
 
-	// 5. Standard macOS installation paths
+	// 5. Standard installation paths across Linux & macOS
 	homeDir, _ := os.UserHomeDir()
 	if homeDir != "" {
 		candidates = append(candidates,
+			filepath.Join(homeDir, ".local/bin/agy"),
+			filepath.Join(homeDir, ".local/bin/antigravity"),
 			filepath.Join(homeDir, ".antigravity/antigravity/bin/agy"),
 			filepath.Join(homeDir, ".antigravity/antigravity/bin/antigravity"),
 			filepath.Join(homeDir, ".antigravity-ide/antigravity-ide/bin/antigravity-ide"),
 			filepath.Join(homeDir, ".antigravity-ide/antigravity-ide/bin/agy-ide"),
 		)
 	}
+
+	// Linux standard & multi-user paths
 	candidates = append(candidates,
 		"/usr/local/bin/agy",
 		"/usr/local/bin/antigravity",
+		"/usr/bin/agy",
+		"/usr/bin/antigravity",
+		"/root/.local/bin/agy",
+		"/root/.local/bin/antigravity",
+	)
+
+	// Check /home/* for user installations (e.g. /home/ubuntu/.local/bin/agy)
+	if userDirs, err := filepath.Glob("/home/*/.local/bin/agy"); err == nil {
+		candidates = append(candidates, userDirs...)
+	}
+	if userDirs, err := filepath.Glob("/home/*/.local/bin/antigravity"); err == nil {
+		candidates = append(candidates, userDirs...)
+	}
+
+	// macOS standard paths
+	candidates = append(candidates,
 		"/opt/homebrew/bin/agy",
 		"/opt/homebrew/bin/antigravity",
 		"/Applications/Antigravity IDE.app/Contents/Resources/app/bin/antigravity-ide",

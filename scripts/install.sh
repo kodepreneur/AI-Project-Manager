@@ -145,7 +145,8 @@ Environment=APP_PORT=8080
 Environment=DATABASE_URL=/var/lib/ai-project-manager/storage/db/app.db
 Environment=PROJECT_ROOT=/var/lib/ai-project-manager/projects
 Environment=STORAGE_ROOT=/var/lib/ai-project-manager/storage
-Environment=ANTIGRAVITY_BINARY=antigravity
+Environment=ANTIGRAVITY_BINARY=agy
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin:/home/ubuntu/.local/bin
 Environment=TERMINAL_ENABLED=true
 Environment=SCREENSHOT_ENABLED=true
 
