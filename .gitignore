@@ -37,7 +37,8 @@ Thumbs.db
 # ------------------------------------------------------------------------------
 # Compiled binaries & outputs
 /backend/server
-server
+/server
+!/backend/cmd/**
 *.exe
 *.exe~
 *.dll

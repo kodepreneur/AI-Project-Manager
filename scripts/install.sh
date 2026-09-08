@@ -62,6 +62,19 @@ if command -v apt-get &> /dev/null; then
   fi
 fi
 
+# Ensure sufficient virtual memory for Go & Node builds on low-RAM VPS
+TOTAL_RAM_KB=$(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}' || echo "2097152")
+SWAP_TOTAL_KB=$(grep SwapTotal /proc/meminfo 2>/dev/null | awk '{print $2}' || echo "0")
+if [ "$TOTAL_RAM_KB" -lt 2000000 ] && [ "$SWAP_TOTAL_KB" -lt 500000 ]; then
+  echo "💾 Low RAM detected without swap. Creating 1GB temporary swapfile to prevent OOM..."
+  if ! [ -f /swapfile_installer ]; then
+    fallocate -l 1G /swapfile_installer 2>/dev/null || dd if=/dev/zero of=/swapfile_installer bs=1M count=1024
+    chmod 600 /swapfile_installer
+    mkswap /swapfile_installer
+    swapon /swapfile_installer 2>/dev/null || true
+  fi
+fi
+
 # Ensure Go is installed
 if ! command -v go &> /dev/null; then
   echo "📦 Installing Go compiler..."
